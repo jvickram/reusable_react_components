@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import withLoading from './hoc/withLoading';
+import withErrorHandling from './hoc/withErrorHandling';
+import useFetch from './hooks/useFetch';
+import List from './components/List';
 
-function App() {
+const ListWithLoading = withLoading(List);
+const ListWithErrorHandling = withErrorHandling(ListWithLoading);
+
+const App = () => {
+  const { data, isLoading, error } = useFetch('https://jsonplaceholder.typicode.com/users');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>List Component</h1>
+      <ListWithErrorHandling data={data} isLoading={isLoading} error={error} />
     </div>
   );
-}
+};
 
 export default App;
